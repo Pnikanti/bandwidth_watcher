@@ -1,12 +1,11 @@
-import sys
-import os
-from loguru import logger
+from config import Config
 from speedtest import Speedtest
 from statistics import mean
 
 
-class OoklaClient:
+class OoklaClient(Config):
     def __init__(self):
+        super().__init__()
         self._ookla = Speedtest()
         self._ookla.get_best_server()
 
@@ -22,13 +21,13 @@ class OoklaClient:
     def measure_download(self, samples: int = 3, share: bool = False):
         megabits = []
         for index, sample in enumerate(range(samples)):
-            logger.debug(f"Measuring download bandwith, sample {index + 1}")
+            self.logger.debug(f"Measuring download bandwith, sample {index + 1}")
             bits = self._ookla.download()
             megabits.append(bits / 1000000)
 
         average_megabits = round(mean(megabits), 2)
-        logger.debug(f"measurements: {megabits}")
-        logger.info(
+        self.logger.debug(f"measurements: {megabits}")
+        self.logger.info(
             f"Download bandwith mean of {samples} measurements: {average_megabits}"
         )
         return average_megabits
@@ -36,13 +35,13 @@ class OoklaClient:
     def measure_upload(self, samples: int = 3, share: bool = False):
         megabits = []
         for index, sample in enumerate(range(samples)):
-            logger.debug(f"Measuring upload bandwith, sample {index}")
+            self.logger.debug(f"Measuring upload bandwith, sample {index}")
             bits = self._ookla.upload()
             megabits.append(bits / 1000000)
 
         average_megabits = round(mean(megabits), 2)
-        logger.debug(f"measurements: {megabits}")
-        logger.info(
+        self.logger.debug(f"measurements: {megabits}")
+        self.logger.info(
             f"Upload bandwith mean of {samples} measurements: {average_megabits}"
         )
         return average_megabits
@@ -51,15 +50,8 @@ class OoklaClient:
         return self._ookla.get_config()
 
 
-logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-logger.add(
-    "./logs/run.log",
-    retention="14 days",
-    level=os.environ.get("LOGLEVEL", "INFO"),
-)
-
 if __name__ == "__main__":
-    x = OoklaWrapper()
+    x = OoklaClient()
     print(x.measure_download())
     print(x.measure_upload())
     print(x.get_config())

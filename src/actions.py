@@ -1,12 +1,11 @@
-import sys
-import os
-from loguru import logger
+from config import Config
 from influx import InfluxClient
 from ookla import OoklaClient
 
 
-class Actions:
+class Actions(Config):
     def __init__(self):
+        super().__init__()
         self.influx = InfluxClient()
         self.ookla = OoklaClient()
 
@@ -34,13 +33,6 @@ class Actions:
         data["upload_bandwith"] = self.ookla.measure_upload()
         self.influx.post(measurement="upload_bandwith", data=data, tags=tags)
 
-
-logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-logger.add(
-    "./logs/run.log",
-    retention="14 days",
-    level=os.environ.get("LOGLEVEL", "INFO"),
-)
 
 if __name__ == "__main__":
     x = Actions()

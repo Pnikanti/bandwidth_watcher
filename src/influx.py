@@ -1,11 +1,10 @@
-import sys
-import os
+from config import Config
 from datetime import datetime, timezone
-from loguru import logger
+from loguru import self.logger
 from influxdb import InfluxDBClient
 
 
-class InfluxClient:
+class InfluxClient(Config):
     def __init__(
         self,
         host: str = "localhost",
@@ -14,6 +13,7 @@ class InfluxClient:
         username: str = "",
         password: str = "",
     ):
+        super().__init__()
         self.influx = InfluxDBClient(
             host=host,
             port=port,
@@ -48,7 +48,7 @@ class InfluxClient:
 
     def query(self, query: str):
         result = self.influx.query(query)
-        logger.info(f"Query returned: {result}")
+        self.logger.info(f"Query returned: {result}")
         return query
 
     def post(self, measurement: str, data: dict, tags: dict, debug: bool = False):
@@ -62,16 +62,9 @@ class InfluxClient:
                 "fields": data,
             }
         ]
-        logger.info(f"Posting: {body}")
+        self.logger.info(f"Posting: {body}")
         self.influx.write_points(body)
 
 
-logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-logger.add(
-    "./logs/run.log",
-    retention="14 days",
-    level=os.environ.get("LOGLEVEL", "INFO"),
-)
-
 if __name__ == "__main__":
-    x = InfluxWrapper()
+    x = InfluxClient()
