@@ -1,0 +1,22 @@
+{
+    "Ecosystem": {
+        "Logging": {
+            "log-to-file": true,
+            "loglevel": "DEBUG"
+        }
+    },
+    "Modem": {
+        "username": "",
+        "password": "",
+        "url": ""
+    },
+    "Influx": {
+        "username": "",
+        "password": "",
+        "database": ""
+    },
+    "Jenkins": {
+        "username": "",
+        "password": ""
+    }
+}

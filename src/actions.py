@@ -1,21 +1,14 @@
 import sys
 import os
 from loguru import logger
-from influxwrapper import InfluxWrapper
-from ooklawrapper import OoklaWrapper
-
-logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-logger.add(
-    "./logs/run.log",
-    retention="14 days",
-    level=os.environ.get("LOGLEVEL", "INFO"),
-)
+from influx import InfluxClient
+from ookla import OoklaClient
 
 
 class Actions:
     def __init__(self):
-        self.influx = InfluxWrapper()
-        self.ookla = OoklaWrapper()
+        self.influx = InfluxClient()
+        self.ookla = OoklaClient()
 
     def measure_download(self):
         data = {}
@@ -41,6 +34,13 @@ class Actions:
         data["upload_bandwith"] = self.ookla.measure_upload()
         self.influx.post(measurement="upload_bandwith", data=data, tags=tags)
 
+
+logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
+logger.add(
+    "./logs/run.log",
+    retention="14 days",
+    level=os.environ.get("LOGLEVEL", "INFO"),
+)
 
 if __name__ == "__main__":
     x = Actions()

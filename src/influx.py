@@ -4,15 +4,8 @@ from datetime import datetime, timezone
 from loguru import logger
 from influxdb import InfluxDBClient
 
-logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-logger.add(
-    "./logs/run.log",
-    retention="14 days",
-    level=os.environ.get("LOGLEVEL", "INFO"),
-)
 
-
-class InfluxWrapper:
+class InfluxClient:
     def __init__(
         self,
         host: str = "localhost",
@@ -72,6 +65,13 @@ class InfluxWrapper:
         logger.info(f"Posting: {body}")
         self.influx.write_points(body)
 
+
+logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
+logger.add(
+    "./logs/run.log",
+    retention="14 days",
+    level=os.environ.get("LOGLEVEL", "INFO"),
+)
 
 if __name__ == "__main__":
     x = InfluxWrapper()

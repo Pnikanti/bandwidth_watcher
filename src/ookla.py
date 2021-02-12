@@ -4,15 +4,8 @@ from loguru import logger
 from speedtest import Speedtest
 from statistics import mean
 
-logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
-logger.add(
-    "./logs/run.log",
-    retention="14 days",
-    level=os.environ.get("LOGLEVEL", "INFO"),
-)
 
-
-class OoklaWrapper:
+class OoklaClient:
     def __init__(self):
         self._ookla = Speedtest()
         self._ookla.get_best_server()
@@ -57,6 +50,13 @@ class OoklaWrapper:
     def get_config(self):
         return self._ookla.get_config()
 
+
+logger.add(sys.stdout, level=os.environ.get("LOGLEVEL", "INFO"))
+logger.add(
+    "./logs/run.log",
+    retention="14 days",
+    level=os.environ.get("LOGLEVEL", "INFO"),
+)
 
 if __name__ == "__main__":
     x = OoklaWrapper()
