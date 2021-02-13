@@ -13,7 +13,9 @@
     "Influx": {
         "username": "",
         "password": "",
-        "database": ""
+        "database": "measurements",
+        "url": "localhost",
+        "port": 8086
     },
     "Jenkins": {
         "username": "",

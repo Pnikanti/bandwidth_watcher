@@ -21,11 +21,9 @@ class HuaweiClient(Config):
         return signal
 
     def get_information(self):
-        information = self._client.information()
-        config.logger.info(information)
+        information = self._client.device.information()
+        self.logger.info(information)
         return information
-
-    def get_connected_devices(self):
 
     def get_download_traffic(self, samples: int = 10):
         megabits = []

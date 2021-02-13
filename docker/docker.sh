@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Make sure you starting this script from Docker container!"
+echo "Make sure you starting this script from Docker folder!"
 echo "$PWD"
 
 if [ $1 == "start" ] ; then

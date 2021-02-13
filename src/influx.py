@@ -1,25 +1,23 @@
 from config import Config
 from datetime import datetime, timezone
-from loguru import self.logger
 from influxdb import InfluxDBClient
 
 
 class InfluxClient(Config):
-    def __init__(
-        self,
-        host: str = "localhost",
-        port: int = 8086,
-        database: str = "measurements",
-        username: str = "",
-        password: str = "",
-    ):
+    def __init__(self):
         super().__init__()
+        self._username = self.get("Influx", "username")
+        self._password = self.get("Influx", "password")
+        self._url = self.get("Influx", "url")
+        self._port = self.get("Influx", "port")
+        self._database = self.get("Influx", "database")
+
         self.influx = InfluxDBClient(
-            host=host,
-            port=port,
-            username=username,
-            password=password,
-            database=database,
+            host=self._url,
+            port=self._port,
+            username=self._username,
+            password=self._password,
+            database=self._database,
         )
 
     def _parse_nested_dictionaries(
