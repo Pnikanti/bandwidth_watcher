@@ -8,12 +8,12 @@ class InfluxClient(Config):
         super().__init__()
         self._username = self.get("Influx", "username")
         self._password = self.get("Influx", "password")
-        self._url = self.get("Influx", "url")
+        self._address = self.get("Influx", "address")
         self._port = self.get("Influx", "port")
         self._database = self.get("Influx", "database")
 
         self.influx = InfluxDBClient(
-            host=self._url,
+            host=self._address,
             port=self._port,
             username=self._username,
             password=self._password,

@@ -8,17 +8,13 @@
     "Modem": {
         "username": "",
         "password": "",
-        "url": ""
+        "address": ""
     },
     "Influx": {
         "username": "",
         "password": "",
         "database": "measurements",
-        "url": "localhost",
+        "address": "localhost",
         "port": 8086
-    },
-    "Jenkins": {
-        "username": "",
-        "password": ""
     }
 }

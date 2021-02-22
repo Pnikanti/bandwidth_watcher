@@ -1,22 +1,5 @@
 version: '3'
 services:
-    jenkins:
-        image: jenkins/jenkins:lts
-        ports:
-            - "8080:8080"
-        tty: true
-        volumes:
-            - jenkins-data:/var/jenkins_home
-            - jenkins-reports:/var/jenkins_reports
-            - /var/run/docker.sock:/var/run/docker.sock
-        depends_on:
-            - influx
-        environment:
-            - JAVA_OPTS="-Djava.awt.headless=true -Dhudson.model.DirectoryBrowserSupport.CSP= "
-        networks:
-            - influx
-        restart: on-failure
-
     influx:
         image: influxdb
         ports:
@@ -61,8 +44,6 @@ volumes:
     grafana-data:
     influx-data:
     chronograf-data:
-    jenkins-data:
-    jenkins-reports:
 
 networks:
     influx:

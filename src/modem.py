@@ -10,9 +10,9 @@ class HuaweiClient(Config):
         super().__init__()
         self._username = self.get("Modem", "username")
         self._password = self.get("Modem", "password")
-        self._url = self.get("Modem", "url")
+        self._address = self.get("Modem", "address")
         self._connection = AuthorizedConnection(
-            f"http://{self._username}:{self._password}@{self._url}/"
+            f"http://{self._username}:{self._password}@{self._address}/"
         )
         self._client = Client(self._connection)
         self.signal = self._client.device.signal()
