@@ -7,13 +7,16 @@ class OoklaClient(Config):
     def __init__(self):
         super().__init__()
         self._ookla = Speedtest()
-        self._ookla.get_best_server()
+        self.config = self._ookla.get_config()
 
-    def get_closest_server(self):
-        return self._ookla.get_closest_servers()
+    def get_isp(self):
+        return self.config["client"]["isp"]
 
-    def get_best_server(self):
-        return self._ookla.get_best_server()
+    def get_ip(self):
+        return self.config["client"]["ip"]
+
+    def get_country(self):
+        return self.config["client"]["country"]
 
     def change_server(self, server: str):
         return self._ookla.set_mini_server(server)
@@ -46,12 +49,8 @@ class OoklaClient(Config):
         )
         return average_megabits
 
-    def get_config(self):
-        return self._ookla.get_config()
-
 
 if __name__ == "__main__":
     x = OoklaClient()
     print(x.measure_download())
     print(x.measure_upload())
-    print(x.get_config())

@@ -1,3 +1,4 @@
+import re
 from config import Config
 from statistics import mean
 from huawei_lte_api.Client import Client, Monitoring
@@ -14,16 +15,28 @@ class HuaweiClient(Config):
             f"http://{self._username}:{self._password}@{self._url}/"
         )
         self._client = Client(self._connection)
+        self.signal = self._client.device.signal()
+        self.information = self._client.device.information()
 
-    def get_signal(self):
-        signal = self._client.device.signal()
-        self.logger.info(signal)
-        return signal
+    def get_cell_id(self):
+        cell_id = self.signal["cell_id"]
+        self.logger.info(f"Cell ID: {cell_id}")
+        return int(re.sub(r"\D", "", cell_id))
 
-    def get_information(self):
-        information = self._client.device.information()
-        self.logger.info(information)
-        return information
+    def get_rssi(self):
+        rssi = self.signal["rssi"]
+        self.logger.info(f"RSSI: {rssi}")
+        return int(re.sub(r"\D", "", rssi))
+
+    def get_rsrp(self):
+        rsrp = self.signal["rsrp"]
+        self.logger.info(f"RSRP: {rsrp}")
+        return int(re.sub(r"\D", "", rsrp))
+
+    def get_rsrq(self):
+        rsrq = self.signal["rsrq"]
+        self.logger.info(f"RSRQ: {rsrq}")
+        return int(re.sub(r"\D", "", rsrq))
 
     def get_download_traffic(self, samples: int = 10):
         megabits = []
