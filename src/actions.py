@@ -48,8 +48,8 @@ class Actions(Config):
             "cell_id": self.cell_id,
         }
         data = {
-            "pre_upload_traffic": self.huawei.get_download_traffic(),
-            "download_bandwith": self.ookla.measure_download(),
+            "pre_upload_traffic": self.huawei.get_upload_traffic(),
+            "upload_bandwidth": self.ookla.measure_upload(),
             "isp": self.isp,
             "ip": self.ip,
             "cell_id": self.cell_id,

@@ -38,7 +38,7 @@ class OoklaClient(Config):
     def measure_upload(self, samples: int = 3, share: bool = False):
         megabits = []
         for index, sample in enumerate(range(samples)):
-            self.logger.debug(f"Measuring upload bandwith, sample {index}")
+            self.logger.debug(f"Measuring upload bandwith, sample {index + 1}")
             bits = self._ookla.upload()
             megabits.append(bits / 1000000)
 
