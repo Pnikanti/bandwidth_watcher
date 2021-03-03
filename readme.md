@@ -1,16 +1,17 @@
-# 🌐 Bandwidth Watcher 
-Bandwidth is measured as the amount of data that can be transferred from one point to another within a network in a specific amount of time.
+# 🌍 Bandwidth watcher 
+### "Bandwidth is measured as the amount of data that can be transferred from one point to another within a network in a specific amount of time."
+## ⚙️ Configuration
+Bandwidth watcher currently only supports InfluxDB - Huawei router combination.
+Check out configuration file for possible configuration combinations.
+## 🏴‍☠️ Bootstrapping
+Bandwith Watcher uses pipenv. To install dependencies, please ensure that you have [**pipenv**](https://pypi.org/project/pipenv/) installed.
 
-## 🏗️ Setup
-Bandwith Watcher uses pipenv, to install dependencies, please ensure that you have [**pipenv**](https://pypi.org/project/pipenv/) installed.
+## 🗝️ Environment variables a.k.a. secrets
 
-## 🌲 Services
-**🛠️ Under Construction 🛠️** <br>
-Bandwidth Watcher tries by default to save the measurements to InfluxDB. To get InfluxDB and other services, get [**Docker**](https://www.docker.com/).<br>
-Start Docker services with premade script or start them by hand with docker-compose.
-
-    bash docker/docker.sh start --> start services
-    bash docker/docker.sh stop --> stop services
+    DATABASE_USERNAME
+    DATABASE_PASSWORD
+    ROUTER_USERNAME
+    ROUTER_PASSWORD
 
 ### 🛠️ Development environment 
 Developing Bandwidth Watcher?
@@ -19,9 +20,5 @@ Developing Bandwidth Watcher?
     pipenv shell
     which python --> should output virtualenv python
 
-### 🤖 Automating
-**🛠️ Under Construction 🛠️** <br>
-Automating Bandwidth Watcher? Use premade cron script. <br>
-Check [**crontab guru**](https://crontab.guru/) for scheduling!
-
-    bash scripts/cron.sh > cron-output.log 2>&1
+## Documentation
+Documentation will be done via [**mermaid**](https://github.com/mermaid-js/mermaid).
