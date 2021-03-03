@@ -1,0 +1,13 @@
+---
+LOG:
+    ENABLED: true
+    TOFILE: true
+    LOGLEVEL: "DEBUG"
+ROUTER:
+    ENABLED: true
+    ADDRESS: "127.0.0.1"
+DATABASE:
+    ENABLED: true
+    TYPE: "influxdb"
+    ADDRESS: "localhost"
+    PORT: 8086
