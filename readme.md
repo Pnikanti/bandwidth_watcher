@@ -4,7 +4,7 @@
 Bandwidth watcher currently only supports InfluxDB - Huawei router combination.
 Check out configuration file for possible configuration combinations.
 ## 🏴‍☠️ Bootstrapping
-Bandwith Watcher uses pipenv. To install dependencies, please ensure that you have [**pipenv**](https://pypi.org/project/pipenv/) installed.
+Bandwith watcher uses pipenv. To install dependencies, please ensure that you have [**pipenv**](https://pypi.org/project/pipenv/) installed.
 
 ## 🗝️ Environment variables a.k.a. secrets
 
@@ -14,7 +14,7 @@ Bandwith Watcher uses pipenv. To install dependencies, please ensure that you ha
     ROUTER_PASSWORD
 
 ### 🛠️ Development environment 
-Developing Bandwidth Watcher?
+Developing bandwidth watcher?
 
     pipenv install --pre --dev
     pipenv shell

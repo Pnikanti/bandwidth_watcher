@@ -12,7 +12,7 @@ speedtest-cli = "2.1.2"
 influxdb = "5.3.1"
 loguru = "0.5.3"
 huawei-lte-api = "1.4.17"
-pyaml = "20.4.0"
+pyyaml = "5.4.1"
 
 [pipenv]
 allow_prereleases = true

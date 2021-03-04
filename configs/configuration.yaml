@@ -1,5 +1,5 @@
 ---
-LOG:
+LOGGING:
     ENABLED: true
     TOFILE: true
     LOGLEVEL: "DEBUG"
