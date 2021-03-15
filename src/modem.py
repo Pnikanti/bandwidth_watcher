@@ -1,15 +1,29 @@
 import re
-from config import Config
+from config import Core
 from statistics import mean
-from huawei_lte_api.Client import Client, Monitoring
-from huawei_lte_api.AuthorizedConnection import AuthorizedConnection
 
 
-class HuaweiClient(Config):
+class Modem(Core):
     def __init__(self):
         super().__init__()
-        self._username = self.get("Modem", "username")
-        self._password = self.get("Modem", "password")
+        try:
+            self._username = os.environ["ROUTER_USERNAME"]
+            self._password = os.environ["ROUTER_PASSWORD"]
+        except KeyError as err:
+            raise AssertionError(
+                'Router credentials not set! Please set "ROUTER_USERNAME" and "ROUTER_PASSWORD" environment variables.'
+            ) from err
+
+
+class HuaweiClient(Modem):
+    def __init__(self):
+        super().__init__()
+        try:
+            from huawei_lte_api.Client import Client, Monitoring
+            from huawei_lte_api.AuthorizedConnection import AuthorizedConnection
+        except ImportError as err:
+            raise AssertionError(f"Could not find HuaweiClient module!") from err
+
         self._address = self.get("Modem", "address")
         self._connection = AuthorizedConnection(
             f"http://{self._username}:{self._password}@{self._address}/"
@@ -17,6 +31,11 @@ class HuaweiClient(Config):
         self._client = Client(self._connection)
         self.signal = self._client.device.signal()
         self.information = self._client.device.information()
+
+    def get_signal_raw(self):
+        signal_raw = self.signal
+        self.logger.info(f"Signal information: {signal_raw}")
+        return signal_raw
 
     def get_cell_id(self):
         cell_id = self.signal["cell_id"]
