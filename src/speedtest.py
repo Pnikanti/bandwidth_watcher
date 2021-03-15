@@ -10,6 +10,11 @@ class Speedtester(Core):
 class OoklaClient(Speedtester):
     def __init__(self):
         super().__init__()
+        try:
+            from speedtest import Speedtest
+        except ImportError as err:
+            raise AssertionError(f"Could not find Speedtest module!") from err
+
         self._ookla = Speedtest()
         self.config = self._ookla.get_config()
 
