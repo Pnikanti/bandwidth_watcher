@@ -1,9 +1,13 @@
-from config import Config
-from speedtest import Speedtest
+from config import Core
 from statistics import mean
 
 
-class OoklaClient(Config):
+class Speedtester(Core):
+    def __init__(self):
+        super().__init__()
+
+
+class OoklaClient(Speedtester):
     def __init__(self):
         super().__init__()
         self._ookla = Speedtest()
