@@ -6,7 +6,7 @@ from loguru import logger
 from functools import reduce
 
 
-class Config:
+class Core:
     def __init__(self, config_file: str = "configuration.yaml"):
         self.logger = logger
         self._config_file = config_file
@@ -103,6 +103,50 @@ class Config:
             self._configuration,
         )
 
+
+class Configurator(Core):
+    def __init__(self):
+        super().__init__()
+        self.DATABASE_ENABLED = self.get("DATABASE", "ENABLED")
+        self.MODEM_ENABLED = self.get("MODEM", "ENABLED")
+        self.SPEEDTEST_ENABLED = self.get("SPEEDTEST_ENABLED", "ENABLED")
+
+        if self.DATABASE_ENABLED:
+            self.DATABASE = self.get("DATABASE", "NAME").upper()
+            self.DATABASE_CLIENTS = {
+                "INFLUXDB": from database import InfluxClient(),
+            }
+        if self.MODEM_ENABLED:
+            self.MODEM = self.get("MODEM", "NAME").upper()
+            self.MODEM_CLIENTS = {
+                "HUAWEI": from modem import HuaweiClient(),
+            }
+        if self.SPEEDTEST_ENABLED:
+            self.SPEEDTEST = self.get("SPEEDTEST", "NAME").upper()
+            self.SPEEDTEST_CLIENTS = {
+                "OOKLA": from speedtest import OoklaClient(),
+            }
+        
+    def get_database_client(self):
+        if self.DATABASE_ENABLED:
+            try:
+                return self.DATABASE_CLIENTS[self.DATABASE]
+            except KeyError as err:
+                raise AssertionError("Database client was not found from system! Create an issue and a PR to get the ball rolling!") from err
+
+    def get_modem_client(self):
+        if self.MODEM_ENABLED:
+            try:
+                return self.MODEM_CLIENTS[self.MODEM]
+            except KeyError as err:
+                raise AssertionError("Modem client was not found from system! Create an issue and a PR to get the ball rolling!") from err
+
+    def get_speedtest_client(self):
+        if self.SPEEDTEST_ENABLED:
+            try:
+                return self.SPEEDTEST_CLIENTS[self.SPEEDTEST]
+            except KeyError as err:
+                raise AssertionError("Speedtest client was not found from system! Create an issue and a PR to get the ball rolling!") from err
 
 if __name__ == "__main__":
     x = Config()
