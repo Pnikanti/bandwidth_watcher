@@ -1,13 +1,27 @@
-from config import Config
+import os
+from config import Core
 from datetime import datetime, timezone
-from influxdb import InfluxDBClient
 
 
-class InfluxClient(Config):
+class Database(Core):
     def __init__(self):
         super().__init__()
-        self._username = self.get("Influx", "username")
-        self._password = self.get("Influx", "password")
+        try:
+            self._username = os.environ["DATABASE_USERNAME"]
+            self._password = os.environ["DATABASE_PASSWORD"]
+        except KeyError as err:
+            raise AssertionError(
+                'Database credentials not set! Please set "DATABASE_USERNAME" and "DATABASE_PASSWORD" environment variables.'
+            ) from err
+
+
+class InfluxClient:
+    def __init__(self):
+        try:
+            from influxdb import InfluxDBClient
+        except ImportError as err:
+            raise AssertionError(f"Could not find InfluxDBClient module!") from err
+
         self._address = self.get("Influx", "address")
         self._port = self.get("Influx", "port")
         self._database = self.get("Influx", "database")
